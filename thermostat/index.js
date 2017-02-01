@@ -23,10 +23,13 @@ $(document).ready(function() {
     thermoStat.reset()
     refreshDisplay()
   })
+
 })
 
 function refreshDisplay(){
   $('#temp_display').text("current temp: " + thermoStat.temperature +" degrees")
   $('#power_save_display').text("power save on: " + thermoStat.isPowerSaving)
   $('#energy_usage_display').text("energy usage: " + thermoStat.usage())
+  if thermoStat.usage === 'low-usage'
+  $('#energy_usage_display').css('background-color',green )
 }
