@@ -24,13 +24,18 @@ $(document).ready(function() {
     thermoStat.reset()
     refreshDisplay()
   })
-
+  $(document).on('input','#weather_station_input',function () {
+    getWeather($('#weather_station_input').val())
+  })
 })
 
-function getWeather(){
-  url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=3f6c140e6471330359fda6d41c526a07"
-  jQuery.get(url,function(data){
-   console.log(data.main.temp)
+function getWeather(city = "London"){
+  url    = "http://api.openweathermap.org/data/2.5/weather?q="
+  apiKey = "&appid=3f6c140e6471330359fda6d41c526a07"
+  units  = "&units=metric"
+  fullUrl= url+city+apiKey+units
+  jQuery.get(fullUrl,function(data){
+    $('#weather_station_display').text(city + " is: " + data.main.temp +" degrees °c")
   })
 }
 
