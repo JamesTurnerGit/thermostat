@@ -70,4 +70,29 @@ describe('thermostat',function(){
       expect(thermostat._maxTemp()).toEqual(thermostat._MAX_TEMP_NO_SAVE);
     });
   });
+
+  describe('reset', function(){
+    it('returns START_TEMP', function(){
+      thermostat.up();
+      thermostat.reset();
+      expect(thermostat.temperature).toEqual(defaultTemp);
+    });
+  });
+
+  describe('energy usage', function(){
+    it('returns low usage', function(){
+      thermostat.temperature = thermostat._MIN_TEMP
+      expect(thermostat.usage()).toBe('Low-usage');
+    });
+
+    it('returns medium-usage', function(){
+      expect(thermostat.usage()).toBe('medium-usage');
+    });
+
+    it('return high-usage', function(){
+      thermostat.temperature = thermostat._MAX_TEMP_SAVING;
+      expect(thermostat.usage()).toBe('high-usage');
+    });
+
+  });
 });
