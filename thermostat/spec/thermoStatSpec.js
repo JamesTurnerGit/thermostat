@@ -82,7 +82,7 @@ describe('thermostat',function(){
   describe('energy usage', function(){
     it('returns low usage', function(){
       thermostat.temperature = thermostat._MIN_TEMP
-      expect(thermostat.usage()).toBe('Low-usage');
+      expect(thermostat.usage()).toBe('low-usage');
     });
 
     it('returns medium-usage', function(){
