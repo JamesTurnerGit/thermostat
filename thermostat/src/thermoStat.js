@@ -18,17 +18,17 @@ ThermoStat.prototype.down = function(){
   this.temperature -= 1;
 }
 
-ThermoStat.prototype._maxTemp = function(){
-  if(this.isPowerSaving){return this._MAX_TEMP_SAVING}
-  return this._MAX_TEMP_NO_SAVE
-}
-
 ThermoStat.prototype.reset = function(){
   this.temperature = this._START_TEMP;
 }
 
 ThermoStat.prototype.usage = function(){
-  if (this.temperature < 18) {return 'Low-usage'}
+  if      (this.temperature < 18) {return 'Low-usage'}
   else if (this.temperature < 25 ) {return 'medium-usage'}
   else return 'high-usage'
+}
+
+ThermoStat.prototype._maxTemp = function(){
+  if(this.isPowerSaving){return this._MAX_TEMP_SAVING}
+  return this._MAX_TEMP_NO_SAVE
 }
