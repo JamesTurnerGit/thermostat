@@ -1,11 +1,8 @@
 require 'sinatra/base'
 require 'json'
-require 'sinatra/session'
-require 'sinatra/cookies'
 
 class ThermServer < Sinatra::Base
   enable :sessions
-
   set :session_secret, "My session secret"
 
   get '/' do
@@ -13,23 +10,29 @@ class ThermServer < Sinatra::Base
   end
 
   get '/temperature' do
-    #p "new session" if session?
-    
-
-    # session[:Temperature] = 20 unless session[:Temperature]
-    # session[:city] ||='london'
+    puts "-------------"
+    puts "session before get"
+    puts "temperature: #{session[:temperature]}"
+    puts "city: #{session[:city]}"
     headers 'Access-Control-Allow-Origin' => '*'
     content_type :json
-    session[:Temperature] ||= 20
+    session[:temperature] ||= 20
     session[:city] ||= 'London'
-    {temp: session[:Temperature], city: session[:city]}.to_json
+    {temperature: session[:temperature], city: session[:city]}.to_json
   end
 
   post '/temperature' do
+    puts "session before post"
+    puts "temperature: #{session[:temperature]}"
+    puts "city: #{session[:city]}"
     headers 'Access-Control-Allow-Origin' => '*'
-    p session[:Temperature] =  params[:temp].to_i
-    p session[:Temperature]
-    p session[:city] = params[:city]
+    session[:temperature] =  params[:temperature].to_i
+    session[:city] = params[:city]
+    puts "-------------"
+    puts "session after post"
+    puts "temperature: #{session[:temperature]}"
+    puts "city: #{session[:city]}"
+    puts "============="
   end
 
   # start the server if ruby file executed directly
