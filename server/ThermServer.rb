@@ -2,22 +2,25 @@ require 'sinatra/base'
 require 'json'
 
 class ThermServer < Sinatra::Base
-  $temp = 20
+  enable :sessions
+  use Rack::Session::Cookie, :key => 'rack.session',
+                             :domain => 'foo.com'
+
   get '/' do
-     p $temp
-     "Hello thermServer! #{$temp}"
+    "Hello thermServer! "
   end
 
   get '/temperature' do
     headers 'Access-Control-Allow-Origin' => '*'
     content_type :json
-    {temp: $temp, city: $city}.to_json
+    {Temperature: session[:Temperature], city: session[:city]}.to_json
+
   end
 
   post '/temperature' do
     headers 'Access-Control-Allow-Origin' => '*'
-    $temp = params[:temp].to_i
-    $city = params[:city]
+    session[:Temperature] =  params[:temp].to_i
+    session[:city] = params[:city]
   end
 
   # start the server if ruby file executed directly
