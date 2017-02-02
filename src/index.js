@@ -1,21 +1,21 @@
 thermostat = new Thermostat();
-
-
 $(document).ready(function(){
-
-  updateDisplay();
+  getTempFromServer();
 
   $("#tempUp").click(function(){
     thermostat.tempUp();
+    postTempToServer();
     updateDisplay();
 
   });
   $("#tempDown").click(function(){
     thermostat.tempDown();
+    postTempToServer();
     updateDisplay();
   });
   $("#reset").click(function(){
     thermostat.reset();
+    postTempToServer();
     updateDisplay();
   });
   $("#powerSave").click(function(){
@@ -27,6 +27,7 @@ $(document).ready(function(){
 
   $('#current-city').change(function() {
     var city = $('#current-city').val();
+    postTempToServer();
     displayWeather(city);
   });
 });
@@ -42,16 +43,19 @@ updateDisplay();
 }
 
 var getTempFromServer = function(){
-  $.get("http://localhost:80/temperature",function(data){
+  $.get("http://localhost:9292/temperature",function(data){
     thermostat._degrees = data.temp;
+    $('#current-city').val(data.city);
+    updateDisplay();
   });
 };
 
+var postTempToServer = function(){
+    $.post("http://localhost:9292/temperature",{temp: thermostat.temperature(), city: $('#current-city').val()});
+}
+
 var updateDisplay = function(){
-  getTempFromServer();
   $("#temperatureDisplay").text(thermostat.temperature());
   $("#powerSaveDisplay").text("power save: "+thermostat.getPowerSave());
   $("#energyUsageDisplay").text("energy usage: "+thermostat.energy());
-  //save upstream
-  $.post("http://localhost:80/temperature",{temp: thermostat.temperature()});
 };
