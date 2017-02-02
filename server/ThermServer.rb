@@ -1,18 +1,21 @@
 require 'sinatra/base'
 
 class ThermServer < Sinatra::Base
-  $temp = 20
+  $temp = 100
   get '/' do
-    'Hello thermServer!'
-    $temp
+     p $temp
+     "Hello thermServer! #{$temp}"
   end
 
   get '/temperature' do
-    'Hello thermServer!'
+    headers 'Access-Control-Allow-Origin' => '*'
+    p $temp
+    $temp
   end
 
   post '/temperature' do
-    $temp = params[:temp]
+    headers 'Access-Control-Allow-Origin' => '*'
+    $temp = params[:temp].to_i
   end
 
   # start the server if ruby file executed directly
