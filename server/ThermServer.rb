@@ -3,20 +3,22 @@ require 'json'
 require 'sinatra/session'
 
 class ThermServer < Sinatra::Base
-  enable :sessions
 
+  set :session_secret, "My session secret"
+
+  register Sinatra::Session
 
   get '/' do
     "Hello thermServer! "
   end
 
-
-
   get '/temperature' do
+    p "new session" if session?
+    session[:Temperature] = 20 unless session[:Temperature]
+    session[:city] ||='london'
+
     headers 'Access-Control-Allow-Origin' => '*'
     content_type :json
-    session[:Temperature] ||= 20
-    session[:city] ||='london'
     {temp: session[:Temperature], city: session[:city]}.to_json
   end
 
