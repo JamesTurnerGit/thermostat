@@ -2,8 +2,8 @@ thermostat = new Thermostat();
 
 
 $(document).ready(function(){
-      getTempFromServer();
-      updateDisplay();
+
+  updateDisplay();
 
   $("#tempUp").click(function(){
     thermostat.tempUp();
@@ -42,21 +42,16 @@ updateDisplay();
 }
 
 var getTempFromServer = function(){
-  $.get("http://localhost:9292/temperature",function(data){
-    thermostat._degrees = data.response;
-  });
-};
-
-var getTempFromServerTest = function(){
-  $.get("http://localhost:9292/temperature",function(data){
-    data.response
+  $.get("http://localhost:80/temperature",function(data){
+    thermostat._degrees = data.temp;
   });
 };
 
 var updateDisplay = function(){
+  getTempFromServer();
   $("#temperatureDisplay").text(thermostat.temperature());
   $("#powerSaveDisplay").text("power save: "+thermostat.getPowerSave());
   $("#energyUsageDisplay").text("energy usage: "+thermostat.energy());
   //save upstream
-  $.post("http://localhost:9292/temperature",{temp: thermostat.temperature()});
+  $.post("http://localhost:80/temperature",{temp: thermostat.temperature()});
 };
