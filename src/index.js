@@ -24,7 +24,7 @@ $(document).ready(function(){
   $('#current-city').change(function() {
     var city = $('#current-city').val();
     displayWeather(city);
-  })
+  });
 });
 
 function displayWeather(city) {
@@ -33,12 +33,19 @@ function displayWeather(city) {
  var units = '&units=metric';
   $.get(url + token + units, function(data) {
      $('#current-temperature').text(data.main.temp);
-   })
-updateDisplay()
+   });
+updateDisplay();
 }
+var getTempFromServer = function(){
+  $.get("http://localhost:80/temperature",function(data){
+    thermostat._degrees = data;
+  });
+};
 
 var updateDisplay = function(){
-  $("#temperatureDisplay").text(thermostat._degrees);
+  $("#temperatureDisplay").text(thermostat.temperature());
   $("#powerSaveDisplay").text("power save: "+thermostat.getPowerSave());
   $("#energyUsageDisplay").text("energy usage: "+thermostat.energy());
-}
+  //save upstream
+  $.post("http://localhost:80/temperature",{temp: thermostat.temperature()});
+};
