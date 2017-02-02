@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'rack'
-
+gem 'sinatra-session'
 gem 'rspec'
 gem 'rspec-sinatra'
 gem 'capybara'
