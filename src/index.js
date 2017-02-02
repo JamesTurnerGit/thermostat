@@ -42,16 +42,15 @@ updateDisplay();
 }
 
 var getTempFromServer = function(){
-  $.get("http://localhost:80/temperature",function(data){
+  $.get("http://localhost:9292/temperature",function(data){
     thermostat._degrees = data.temp;
     $('#current-city').val(data.city);
-    displayWeather($('#current-city').val())
     updateDisplay();
   });
 };
 
 var postTempToServer = function(){
-    $.post("http://localhost:80/temperature",{temp: thermostat.temperature(), city: $('#current-city').val()});
+    $.post("http://localhost:9292/temperature",{temp: thermostat.temperature(), city: $('#current-city').val()});
 };
 
 var updateDisplay = function(){
