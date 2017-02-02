@@ -1,7 +1,8 @@
 require 'sinatra/base'
+require 'json'
 
 class ThermServer < Sinatra::Base
-  $temp = 100
+  $temp = 20
   get '/' do
      p $temp
      "Hello thermServer! #{$temp}"
@@ -9,13 +10,14 @@ class ThermServer < Sinatra::Base
 
   get '/temperature' do
     headers 'Access-Control-Allow-Origin' => '*'
-    p $temp
-    $temp
+    content_type :json
+    {temp: $temp}.to_json
   end
 
   post '/temperature' do
     headers 'Access-Control-Allow-Origin' => '*'
     $temp = params[:temp].to_i
+    "pizza"
   end
 
   # start the server if ruby file executed directly
